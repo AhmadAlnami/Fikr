@@ -158,7 +158,7 @@
         <div class="p-2">
             <button type="submit" class="btn btn-soft btn-primary">تغريد</button>
         </div>
-</form>
+    </form>
 </body>
 
 </html>

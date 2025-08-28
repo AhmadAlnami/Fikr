@@ -2,12 +2,12 @@
     'tweet',    
     ])
 
-<div class="card">
+<div class="card drop-shadow-md">
     <div class="card-body p-4">
         <p class="mb-4 px-3">{{ $tweet->content }}</p>
         <div class="card-actions flex justify-between">
             @if (request()->routeIs('home') || request()->routeIs('account'))
-                <button 
+                <button
                 @if ($tweet->id == request()->tweet?->id)
                     disabled
                 @endif

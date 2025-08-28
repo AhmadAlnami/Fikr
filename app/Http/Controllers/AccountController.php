@@ -12,7 +12,7 @@ class AccountController extends Controller
 {
     function view(User $account)
     {
-        $tweets = $account->tweets;
+        $tweets = $account->tweets()->orderByDesc('created_at')->get();
         return view('account.view',compact('account','tweets'));
     }
     function edit(User $account)

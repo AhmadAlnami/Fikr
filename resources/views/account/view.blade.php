@@ -31,13 +31,12 @@
             </div>
         </div>
         @foreach ($tweets as $tweet)
-        {{-- إذا كانت التغريدة رد (يعني id != base_tweet_id) --}}
-        @if ($tweet->id != $tweet->base_tweet_id)
-            {{-- عرض التغريدة الأصلية اللي يرد عليها --}}
-            <x-tweet :tweet="$tweet->baseTweet" />
-
-            {{-- عرض رد المستخدم --}}
-            <div class="space-y-5 ms-5 border-s-2 ps-2">
+        <!-- لو كانت رد على تغريدة نعرض اسم الشخص اللي راد عليه-->
+        @if ($tweet->parent_tweet_id != null)
+            <div>
+                <div class="card drop-shadow-xl mx-1.5 mb-0.5">
+                    <a href="{{ route('view.tweet',$tweet->parent_tweet_id)}}" class="mx-3">رد على {{ $tweet->parentTweet->user->name }}</a>
+                </div>
                 <x-tweet :tweet="$tweet" />
             </div>
             @else
