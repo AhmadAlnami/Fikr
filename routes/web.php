@@ -18,3 +18,5 @@ Route::post('/logout',[LogoutController::class,'__invoke'])->name('logout');
 Route::get('/account/{account}',[AccountController::class,'view'])->name('account');
 Route::get('/account/settings/{account}',[AccountController::class,'edit'])->name('account.edit');
 Route::post('/account/update/{account}',[AccountController::class,'update'])->name('account.update');
+Route::post('/tweets/{tweet}/like', [TweetController::class,'like'])->name('tweets.like');
+Route::delete('/tweet/{tweet}/delete',[TweetController::class,'delete'])->name('tweet.delete');

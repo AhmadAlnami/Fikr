@@ -42,4 +42,10 @@ class Tweet extends Model
         return $this->hasMany(Tweet::class, 'base_tweet_id');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+
 }

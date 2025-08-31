@@ -30,4 +30,46 @@ class TweetController extends Controller
         return redirect()->back();
     }
     
+    public function like(Tweet $tweet)
+    {
+        if (!auth()->check()) {
+            return redirect()->back()->with('error', 'يجب تسجيل الدخول لتستطيع الإعجاب بالتغريدة');
+        }
+
+        $user = auth()->user();
+
+        if ($tweet->likes()->where('user_id', $user->id)->exists()) {
+            // إذا مسوي لايك قبل نحذفه (يعني "إلغاء لايك")
+            $tweet->likes()->where('user_id', $user->id)->delete();
+
+            return back()->with('success', 'تم إلغاء الإعجاب');
+        } else {
+            // إذا أول مرة يسوي لايك
+            $tweet->likes()->create([
+                'user_id' => $user->id,
+            ]);
+
+            return back()->with('success', 'تم تسجيل إعجابك بالتغريدة');
+        }
+
+    }
+    public function delete(Tweet $tweet)
+    {
+        // السماح فقط لصاحب التغريدة أو الأدمن يحذفها
+        if ($tweet->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'لا يمكن حذف التغريدة');
+        }
+
+        $tweet->delete();
+
+        // إذا المستخدم داخل صفحة التغريدة نفسها
+        if (url()->previous() === route('view.tweet', $tweet->id)) {
+            return redirect()->route('home')->with('success', 'تم حذف التغريدة بنجاح');
+        }
+
+        // إذا جاي من أي مكان ثاني
+        return redirect()->back()->with('success', 'تم حذف التغريدة بنجاح');
+    }
+
+
 }
